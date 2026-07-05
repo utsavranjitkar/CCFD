@@ -15,6 +15,23 @@ st.set_page_config(
 )
 
 # -----------------------------
+# Hide Streamlit's auto-generated sidebar nav
+# -----------------------------
+st.markdown(
+    """
+    <style>
+        [data-testid="stSidebarNav"] {
+            display: none;
+        }
+        [data-testid="stSidebar"] {
+            display: none;
+        }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+# -----------------------------
 # Session initialization
 # -----------------------------
 if "current_page" not in st.session_state:
@@ -173,4 +190,5 @@ else:
         model_info()
 
     elif page == "History":
+
         history()

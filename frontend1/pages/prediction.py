@@ -1,5 +1,6 @@
 import streamlit as st
 from datetime import datetime
+from datetime import date
 
 from api import predict, get_form_options       
 
@@ -50,7 +51,10 @@ def show():
         )
 
         dob = st.date_input(
-            "Date of Birth"
+            "Date of Birth",
+            value=date(1990, 1, 1),       # Default selected date
+            min_value=date(1900, 1, 1),   # Earliest allowed DOB
+            max_value=date.today()        # Latest allowed DOB
         )
 
     st.divider()
