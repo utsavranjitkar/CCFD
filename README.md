@@ -157,7 +157,7 @@ cd CreditCardFraudDetection
 Navigate to the backend directory.
 
 ```bash
-cd backend
+cd backend1
 ```
 
 Create a virtual environment.
@@ -213,7 +213,7 @@ http://127.0.0.1:8000
 Navigate to the frontend directory.
 
 ```bash
-cd frontend
+cd frontend1
 ```
 
 Create a virtual environment.
