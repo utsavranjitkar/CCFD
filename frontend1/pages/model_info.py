@@ -83,24 +83,6 @@ def show():
     st.divider()
 
     # ---------------------------------
-    # Confusion Matrix
-    # ---------------------------------
-
-    st.subheader("Confusion Matrix")
-
-    cm = data["confusion_matrix"]
-
-    cm_df = pd.DataFrame(
-        cm,
-        columns=["Predicted Safe", "Predicted Fraud"],
-        index=["Actual Safe", "Actual Fraud"]
-    )
-
-    st.table(cm_df)
-
-    st.divider()
-
-    # ---------------------------------
     # Feature Importance
     # ---------------------------------
 
