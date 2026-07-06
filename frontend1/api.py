@@ -138,3 +138,27 @@ def batch_predict(token, uploaded_file):
         headers=headers,
         files=files
     )
+
+
+def get_all_users(token):
+
+    headers = {
+        "Authorization": f"Bearer {token}"
+    }
+
+    return requests.get(
+        f"{BASE_URL}/users/all",
+        headers=headers
+    )
+
+
+def delete_user(token, user_id):
+
+    headers = {
+        "Authorization": f"Bearer {token}"
+    }
+
+    return requests.delete(
+        f"{BASE_URL}/users/delete/{user_id}",
+        headers=headers
+    )

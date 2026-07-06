@@ -1,15 +1,48 @@
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, EmailStr, field_validator
 from datetime import datetime
 from typing import List
 from datetime import datetime
-
+import re
 
 class UserCreate(BaseModel):
+
     name: str
-    email: str
+    email: EmailStr
     password: str
     role: str
-    admin_code: str | None = None
+    admin_code: str = ""
+
+    @field_validator("name")
+    @classmethod
+    def validate_name(cls, value):
+
+        if len(value.strip()) < 2:
+            raise ValueError(
+                "Name must be at least 2 characters."
+            )
+
+        if not re.fullmatch(r"[A-Za-z ]+", value):
+            raise ValueError(
+                "Name can only contain letters and spaces."
+            )
+
+        return value.strip()
+
+    @field_validator("password")
+    @classmethod
+    def validate_password(cls, value):
+
+        if len(value) < 8:
+            raise ValueError(
+                "Password must be at least 8 characters."
+            )
+
+        if not any(char.isdigit() for char in value):
+            raise ValueError(
+                "Password must contain at least one number."
+            )
+
+        return value
 
 class UserLogin(BaseModel):
     email: str
@@ -121,3 +154,13 @@ class AdminDashboard(BaseModel):
     fraud_predictions: int
     fraud_rate: float
     recent_predictions: List[RecentPrediction]
+
+
+class AdminUserResponse(BaseModel):
+    id: int
+    name: str
+    email: str
+    role: str
+
+    class Config:
+        from_attributes = True

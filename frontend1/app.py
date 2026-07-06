@@ -8,6 +8,7 @@ from pages.prediction import show as prediction
 from pages.batch_prediction import show as batch_prediction
 from pages.model_info import show as model_info
 from pages.history import show as history
+from pages.admin_panel import show as admin_panel
 
 st.set_page_config(
     page_title="Credit Card Fraud Detection",
@@ -127,7 +128,8 @@ else:
                     "Prediction",
                     "Batch Prediction",
                     "History",
-                    "Model Info"
+                    "Model Info",
+                    "Admin Panel"
                 ],
                 default=st.session_state.current_page,
                 key="admin_navigation"
@@ -192,3 +194,7 @@ else:
     elif page == "History":
 
         history()
+
+    elif page == "Admin Panel":
+
+        admin_panel()

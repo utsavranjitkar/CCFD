@@ -109,3 +109,68 @@ def get_me(
         "email": current_user.email,
         "role": current_user.role
     }
+
+
+@router.get(
+    "/all",
+    response_model=list[schemas.AdminUserResponse]
+)
+def get_all_users(
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user)
+):
+
+    if current_user.role != "admin":
+        raise HTTPException(
+            status_code=403,
+            detail="Only admins can view users."
+        )
+
+    users = db.query(models.User).all()
+
+    return users
+
+
+@router.delete("/delete/{user_id}")
+def delete_user(
+    user_id: int,
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user)
+):
+
+    if current_user.role != "admin":
+        raise HTTPException(
+            status_code=403,
+            detail="Only admins can delete users."
+        )
+
+    user = db.query(models.User).filter(
+        models.User.id == user_id
+    ).first()
+
+    if not user:
+        raise HTTPException(
+            status_code=404,
+            detail="User not found."
+        )
+
+    # Prevent deleting yourself
+    if user.id == current_user.id:
+        raise HTTPException(
+            status_code=400,
+            detail="You cannot delete your own account."
+        )
+
+    # Prevent deleting other admins
+    if user.role == "admin":
+        raise HTTPException(
+            status_code=400,
+            detail="Admin accounts cannot be deleted."
+        )
+
+    db.delete(user)
+    db.commit()
+
+    return {
+        "message": "User deleted successfully."
+    }
