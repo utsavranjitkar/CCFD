@@ -1,6 +1,10 @@
 # Data
 data/
 
+# Models
+models/
+backend1/app/model_artifacts/
+
 # Python
 __pycache__/
 *.py[cod]
